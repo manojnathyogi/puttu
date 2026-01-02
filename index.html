@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: sparkle 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #764ba2;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .button-container {
+            margin: 40px 0;
+        }
+
+        .reveal-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reveal-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .reveal-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .reveal-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .reveal-button:active {
+            transform: scale(0.98);
+        }
+
+        .letter-container {
+            display: none;
+            margin-top: 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .letter-container.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .letter {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: left;
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .letter::before {
+            content: '💌';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 2em;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .letter-content {
+            margin-top: 20px;
+        }
+
+        .letter-content p {
+            margin-bottom: 15px;
+            text-indent: 30px;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1);
+            }
+        }
+
+        .year {
+            font-size: 4em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+            
+            .letter {
+                padding: 30px 20px;
+                font-size: 1em;
+            }
+            
+            .card {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="card">
+            <h1>Happy New Year! 🎉</h1>
+            <div class="year">2025</div>
+            <p class="subtitle">A reply from the heart...</p>
+            
+            <div class="button-container">
+                <button class="reveal-button" onclick="revealLetter()">
+                    Click to Open Your Letter 💌
+                </button>
+            </div>
+            
+            <div class="letter-container" id="letterContainer">
+                <div class="letter">
+                    <div class="letter-content" id="letterContent">
+                        <p>I am so glad to receive the beautifully crafted card by your hand, filled with your thoughts about me. It makes sense to feel that we left something out in the letter you gave to me. But I felt so happy to get the card from you. This is the second card from you. Just as the previous, it is no less.</p>
+                        
+                        <p>As always, you love to write, very expressive. I could not express my happiness well at the restaurant when I received the card, but I was very happy to go through it and read it twice. This is the First card I have received with so much expression, memory, and feeling. Very grateful and happy to receive such a card from you, the special person.</p>
+                        
+                        <p>Finally, I liked the way you talked about the words and action statements. I feel like "I like to do things for close people around me, whether that is my mom, my sister, my family, my friends, and now YOU too. This gives me happiness and satisfaction, too. It holds a lasting memory, and to think about it later is a calm and pleasing feeling." Very happy to know that you felt the same.</p>
+                        
+                        <p>Friends tell me it is a honeymoon time and will deplete with time, but hopefully I will be able to maintain the constant feelings always. So, I always feel very excited to meet you and try to have the same feeling of excitement and happiness as if I am meeting you the first time - like at Amtrak, chat in the car, and dinner at Sister Thai.</p>
+                        
+                        <p>Thank you so much for your time that you could make to meet me despite your busy schedule. For instance, I was extremely happy that you came to howard event and performed while your class was ongoing.</p>
+                        
+                        <p>Most of the plans that you have made were new to me, such that I had a wide exposure. I enjoyed all of the moments to chitchat with you. Especially when you break the silence, ask, and share day-to-day things or memories.</p>
+                        
+                        <p>The book you gave and a ton of questions you asked are helping me to become an "Emotion scientist" - hopefully, if I could practice the RULER strategy properly. I feel emotionally vulnerable and supported when I am with you.</p>
+                        
+                        <p>One of the important things, you ways to care always makes me feel ashamed that I care less. But I love to learn from you the dietary plans and gym techniques. I also enjoy getting scolded with your soft voice. All your care matters, and I am grateful.</p>
+                        
+                        <p>Year 2025 was one of the memorable years - it became more special since I met you. Thankful that I was not very late. Excited for the year 2026 and for more things to hear from you, as you mentioned at the end of the letter.</p>
+                        
+                        <p>May this year and the coming years be the happiest ones for you, with your dreams coming true!!</p>
+                        
+                        <p style="text-align: right; margin-top: 30px; font-weight: bold; font-style: italic;">To Puttu!<br><span style="margin-left: 20px;">From Manoj! ❤️</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts animation
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '💘', '❤️', '💜'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }, 500);
+        }
+
+        // Reveal letter function
+        function revealLetter() {
+            const letterContainer = document.getElementById('letterContainer');
+            const button = document.querySelector('.reveal-button');
+            
+            if (letterContainer.classList.contains('show')) {
+                return; // Already shown
+            }
+            
+            letterContainer.classList.add('show');
+            button.style.display = 'none';
+            
+            // Add confetti effect
+            createConfetti();
+        }
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 4000);
+                }, i * 50);
+            }
+        }
+
+        // Add CSS for confetti animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize hearts animation
+        createHearts();
+    </script>
+</body>
+</html>
+
