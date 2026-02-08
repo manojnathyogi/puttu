@@ -40,6 +40,7 @@ function Valentine() {
       <div className="hearts" id="hearts"></div>
       
       <div className="container">
+        <Link to="/" className="back-button">← Back to Home</Link>
         <div className="valentine-card">
           <h1 className="valentine-title">Valentine Week 2026 💕</h1>
           <p className="valentine-subtitle">A Journey of Love & Affection</p>

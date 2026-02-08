@@ -41,22 +41,22 @@ function Portal() {
           
           <div className="images-container">
             <div className="image-placeholder">
-              <div className="placeholder-text">📸 Add your image here</div>
-              <p style={{ marginTop: '10px', color: '#999', fontSize: '0.9em' }}>
-                Click to upload or drag & drop
-              </p>
+              <img
+                src={`${import.meta.env.BASE_URL}homepage/104_3443.JPEG`}
+                alt="Homepage memory 1"
+              />
             </div>
             <div className="image-placeholder">
-              <div className="placeholder-text">📸 Add your image here</div>
-              <p style={{ marginTop: '10px', color: '#999', fontSize: '0.9em' }}>
-                Click to upload or drag & drop
-              </p>
+              <img
+                src={`${import.meta.env.BASE_URL}homepage/IMG_3682.jpg`}
+                alt="Homepage memory 2"
+              />
             </div>
             <div className="image-placeholder">
-              <div className="placeholder-text">📸 Add your image here</div>
-              <p style={{ marginTop: '10px', color: '#999', fontSize: '0.9em' }}>
-                Click to upload or drag & drop
-              </p>
+              <img
+                src={`${import.meta.env.BASE_URL}homepage/IMG_3805.jpg`}
+                alt="Homepage memory 3"
+              />
             </div>
           </div>
         </div>

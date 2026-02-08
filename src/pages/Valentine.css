@@ -127,9 +127,15 @@
 .roadmap-item:nth-child(8) { animation-delay: 0.8s; }
 
 .roadmap-item.blurred {
-  filter: blur(3px);
-  opacity: 0.4;
+  filter: none;
+  opacity: 1;
   pointer-events: none;
+}
+
+.roadmap-item.blurred .roadmap-content,
+.roadmap-item.blurred .roadmap-dot {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .roadmap-item.active {
@@ -243,6 +249,26 @@
 
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-button {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
