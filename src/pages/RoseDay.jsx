@@ -157,11 +157,11 @@ function RoseDay() {
 
       <div className="container">
         <div className="person-background">
-          <img src="/rose-person.JPEG" alt="Person" />
+          <img src={`${import.meta.env.BASE_URL}rose-person.JPEG`} alt="Person" />
         </div>
 
         <div className="rose-bouquet">
-          <img src="/rose-day.png" alt="Rose Bouquet" />
+          <img src={`${import.meta.env.BASE_URL}rose-day.png`} alt="Rose Bouquet" />
         </div>
       </div>
     </div>
