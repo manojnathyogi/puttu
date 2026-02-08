@@ -81,8 +81,11 @@ function ProposeDay() {
   const [showQuestion, setShowQuestion] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
   const [showResult, setShowResult] = useState(false)
+  const [locked, setLocked] = useState(false)
   const reactionLayerRef = useRef(null)
   const audioRef = useRef(null)
+  const selectedCountRef = useRef(0)
+  const showResultRef = useRef(false)
 
   const total = slideGroups.length
   const group = slideGroups[index]
@@ -90,6 +93,8 @@ function ProposeDay() {
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}propose-day/${fileName}`
   const soundUrl = `${import.meta.env.BASE_URL}sound/Take%20me%20home.mp3`
+  const celebrationUrl = `${import.meta.env.BASE_URL}sound/celebration_sound.mp3`
+  const sadUrl = `${import.meta.env.BASE_URL}sound/sad.mp3`
 
   const goNext = () => {
     if (index === total - 1) {
@@ -138,8 +143,30 @@ function ProposeDay() {
     }
   }
 
+  useEffect(() => {
+    selectedCountRef.current = selectedOptions.length
+  }, [selectedOptions.length])
+
+  useEffect(() => {
+    showResultRef.current = showResult
+  }, [showResult])
+
+  useEffect(() => {
+    if (!showPopup) return
+    setLocked(false)
+    const timer = setTimeout(() => {
+      if (selectedCountRef.current === 0 && !showResultRef.current) {
+        setLocked(true)
+        playSadSound()
+        launchEmojis(['😔', '☹️', '😢'])
+      }
+    }, 30000)
+
+    return () => clearTimeout(timer)
+  }, [showPopup])
+
   const toggleOption = (id) => {
-    if (showResult) return
+    if (showResult || locked) return
     setSelectedOptions((current) => {
       if (current.includes(id)) {
         return current.filter((option) => option !== id)
@@ -174,23 +201,23 @@ function ProposeDay() {
 
   const playCelebrationSound = () => {
     try {
-      const context = new (window.AudioContext || window.webkitAudioContext)()
-      const gain = context.createGain()
-      gain.gain.value = 0.18
-      gain.connect(context.destination)
+      const audio = new Audio(celebrationUrl)
+      audio.volume = 0.8
+      audio.play().catch(() => {
+        // Ignore autoplay errors if blocked.
+      })
+    } catch (error) {
+      // Ignore audio errors silently
+    }
+  }
 
-      const duration = 5
-      const bufferSize = Math.floor(context.sampleRate * duration)
-      const buffer = context.createBuffer(1, bufferSize, context.sampleRate)
-      const data = buffer.getChannelData(0)
-      for (let i = 0; i < bufferSize; i += 1) {
-        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize)
-      }
-      const source = context.createBufferSource()
-      source.buffer = buffer
-      source.connect(gain)
-      source.start()
-      source.stop(context.currentTime + duration)
+  const playSadSound = () => {
+    try {
+      const audio = new Audio(sadUrl)
+      audio.volume = 0.7
+      audio.play().catch(() => {
+        // Ignore autoplay errors if blocked.
+      })
     } catch (error) {
       // Ignore audio errors silently
     }
@@ -205,19 +232,21 @@ function ProposeDay() {
   }
 
   const handleDone = () => {
-    if (showResult) return
+    if (showResult || locked) return
     setShowResult(true)
     if (selectedOptions.length === 1) {
-      launchEmojis(['💖', '💘', '💝', '💞'])
+      launchEmojis(['💖', '💘', '💝', '💞', '😍', '🥰', '😘'])
       playCelebrationSound()
     } else if (selectedOptions.length === 2) {
-      launchEmojis(['💖', '😍', '💘', '💞'])
+      launchEmojis(['💖', '😍', '💘', '💞', '🥰', '😘'])
       playCelebrationSound()
     } else if (selectedOptions.length === 3) {
-      launchEmojis(['💖', '😘', '😍', '💘', '💞'])
+      launchEmojis(['💖', '😘', '😍', '💘', '💞', '🥰'])
       playCelebrationSound()
     } else {
+      setLocked(true)
       launchEmojis(['😔', '☹️', '😢'])
+      playSadSound()
     }
   }
 
@@ -285,7 +314,7 @@ function ProposeDay() {
                         type="button"
                         className={`option-card ${selectedOptions.includes(option.id) ? 'selected' : ''}`}
                         onClick={() => toggleOption(option.id)}
-                      disabled={showResult}
+                      disabled={showResult || locked}
                       >
                         <img src={assetUrl(option.file)} alt="Valentine option" />
                         <span className="option-check">✓</span>
@@ -294,7 +323,7 @@ function ProposeDay() {
                     ))}
                   </div>
 
-                  <button type="button" className="done-button" onClick={handleDone} disabled={showResult}>
+                  <button type="button" className="done-button" onClick={handleDone} disabled={showResult || locked}>
                     Done!!
                   </button>
 
@@ -334,7 +363,7 @@ function ProposeDay() {
                     </div>
                   )}
 
-                  {showResult && selectedOptions.length === 0 && (
+                  {locked && selectedOptions.length === 0 && (
                     <div className="timeout-message">No response in time 😢</div>
                   )}
                 </div>
