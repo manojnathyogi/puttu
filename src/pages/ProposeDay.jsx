@@ -79,28 +79,38 @@ function ProposeDay() {
   const [index, setIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState([])
   const [timedOut, setTimedOut] = useState(false)
+  const [showQuestion, setShowQuestion] = useState(false)
   const reactionLayerRef = useRef(null)
 
   const total = slideGroups.length
   const group = slideGroups[index]
-  const isLastSlide = index === total - 1
+  const questionRef = useRef(null)
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}propose-day/${fileName}`
 
   const goNext = () => {
+    if (index === total - 1) {
+      setShowQuestion(true)
+      return
+    }
     setIndex((current) => (current + 1) % total)
   }
 
   const goPrev = () => {
+    if (showQuestion) {
+      setShowQuestion(false)
+      return
+    }
     setIndex((current) => (current - 1 + total) % total)
   }
 
   useEffect(() => {
+    if (!showQuestion) return
     if (selectedOptions.length > 0) return
     setTimedOut(false)
     const timer = setTimeout(() => setTimedOut(true), 60000)
     return () => clearTimeout(timer)
-  }, [selectedOptions.length])
+  }, [selectedOptions.length, showQuestion])
 
   const launchEmojis = (emojis) => {
     const layer = reactionLayerRef.current
@@ -150,6 +160,38 @@ function ProposeDay() {
     setTimedOut(false)
   }
 
+  const playDrumroll = () => {
+    try {
+      const context = new (window.AudioContext || window.webkitAudioContext)()
+      const gain = context.createGain()
+      gain.gain.value = 0.15
+      gain.connect(context.destination)
+
+      const duration = 1.5
+      const bufferSize = Math.floor(context.sampleRate * duration)
+      const buffer = context.createBuffer(1, bufferSize, context.sampleRate)
+      const data = buffer.getChannelData(0)
+      for (let i = 0; i < bufferSize; i += 1) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize)
+      }
+      const source = context.createBufferSource()
+      source.buffer = buffer
+      source.connect(gain)
+      source.start()
+      source.stop(context.currentTime + duration)
+    } catch (error) {
+      // Ignore audio errors silently
+    }
+  }
+
+  const goToQuestion = () => {
+    setShowQuestion(true)
+    playDrumroll()
+    requestAnimationFrame(() => {
+      questionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
   return (
     <div className="propose-container">
       <div className="propose-background"></div>
@@ -160,35 +202,49 @@ function ProposeDay() {
         <h1>Propose Day 💍</h1>
         <p className="subtitle">A journey of our beautiful moments</p>
 
-        <div className="slideshow">
-          <button className="slide-arrow left" type="button" onClick={goPrev}>
-            ‹
-          </button>
+        {!showQuestion && (
+          <div className="slideshow">
+            <button className="slide-arrow left" type="button" onClick={goPrev}>
+              ‹
+            </button>
 
-          <div className="slide-content">
-            <div className="slide-grid">
-              {group.images.map((image) => (
-                <div key={image} className="slide-tile">
-                  <img src={assetUrl(image)} alt="Memory" />
-                </div>
-              ))}
+            <div className="slide-content">
+              <div className={`slide-grid ${group.images.length === 1 ? 'single' : ''}`}>
+                {group.images.map((image) => (
+                  <div key={image} className="slide-tile">
+                    <img src={assetUrl(image)} alt="Memory" />
+                  </div>
+                ))}
+              </div>
+              <div className="slide-caption">{group.caption}</div>
+              <div className="slide-count">
+                {index + 1} / {total}
+              </div>
             </div>
-            <div className="slide-caption">{group.caption}</div>
-            <div className="slide-count">
-              {index + 1} / {total}
-            </div>
+
+            <button className="slide-arrow right" type="button" onClick={goNext}>
+              ›
+            </button>
           </div>
+        )}
 
-          <button className="slide-arrow right" type="button" onClick={goNext}>
-            ›
-          </button>
-        </div>
-
-        {isLastSlide && (
+        {showQuestion && (
           <>
             <div className="transition-note">Today’s important question!!</div>
-            <div className="question-card">
-              <h2>Would you like to be my Valentine? 💖</h2>
+            <button type="button" className="question-arrow" onClick={goToQuestion}>
+              ↓
+            </button>
+            <div className="question-card" ref={questionRef}>
+              <p className="question-intro">
+                Our journey started a few months ago, the nervous me trying to fill the gaps with flowers as beautiful as you!!
+              </p>
+              <p className="question-intro">
+                We shared everything and cared deeply; some moments were delightful, others maybe not, but I love you the most!!
+              </p>
+              <p className="question-quote">
+                “You are my love, so will you be my Valentine?”
+                <span className="question-signature">— your mayalu ❤️</span>
+              </p>
               <p className="question-hint">Choose any option(s) you like</p>
 
               <div className="options-grid">
