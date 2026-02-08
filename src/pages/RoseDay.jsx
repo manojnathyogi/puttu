@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
+import { db } from '../lib/firebase'
 import './RoseDay.css'
-
-const STORAGE_KEY = 'roseDayComments'
 
 function RoseDay() {
   const [comments, setComments] = useState([])
@@ -10,8 +10,6 @@ function RoseDay() {
   const reactionsLayerRef = useRef(null)
 
   useEffect(() => {
-    loadComments()
-    
     // Floating hearts
     const heartsContainer = document.getElementById('hearts')
     const hearts = ['💕', '💖', '💗', '💓', '💝', '💘', '❤️', '💜']
@@ -50,10 +48,19 @@ function RoseDay() {
     }
   }, [])
 
-  const loadComments = () => {
-    const savedComments = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-    setComments(savedComments)
-  }
+  useEffect(() => {
+    const commentsRef = collection(db, 'roseDayComments')
+    const commentsQuery = query(commentsRef, orderBy('createdAt', 'asc'))
+    const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
+      const nextComments = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setComments(nextComments)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   const addComment = (author) => {
     const text = commentText.trim()
@@ -66,19 +73,18 @@ function RoseDay() {
     saveComment(author, text)
   }
 
-  const saveComment = (author, text) => {
-    const newComments = [
-      ...comments,
-      {
+  const saveComment = async (author, text) => {
+    try {
+      await addDoc(collection(db, 'roseDayComments'), {
         author,
         text,
-        timestamp: new Date().toISOString()
-      }
-    ]
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newComments))
-    setComments(newComments)
-    setCommentText('')
+        createdAt: serverTimestamp()
+      })
+      setCommentText('')
+    } catch (error) {
+      console.error('Failed to save comment', error)
+      alert('Sorry, your comment could not be saved. Please try again.')
+    }
   }
 
   const triggerReaction = (emoji) => {
@@ -135,8 +141,8 @@ function RoseDay() {
           {comments.length === 0 ? (
             <div className="no-comments">No thoughts shared yet. Be the first to share! 💭</div>
           ) : (
-            comments.map((comment, index) => (
-              <div key={index} className={`comment-item ${comment.author}-comment`}>
+            comments.map((comment) => (
+              <div key={comment.id} className={`comment-item ${comment.author}-comment`}>
                 <div className="comment-author">
                   {comment.author === 'manoj' ? 'Manoj 💙' : 'Puttu 💕'}
                 </div>
