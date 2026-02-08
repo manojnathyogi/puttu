@@ -258,10 +258,11 @@
 }
 
 .back-button {
+  position: fixed;
+  top: clamp(12px, 2vw, 18px);
+  left: clamp(12px, 2vw, 18px);
+  z-index: 50;
   display: inline-block;
-  align-self: flex-start;
-  margin-bottom: 15px;
-  margin-left: clamp(4px, 1vw, 10px);
   padding: 10px 20px;
   background: rgba(255, 255, 255, 0.25);
   color: white;
