@@ -78,8 +78,9 @@ const optionImages = [
 function ProposeDay() {
   const [index, setIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState([])
-  const [timedOut, setTimedOut] = useState(false)
   const [showQuestion, setShowQuestion] = useState(false)
+  const [showPopup, setShowPopup] = useState(false)
+  const [showResult, setShowResult] = useState(false)
   const reactionLayerRef = useRef(null)
 
   const total = slideGroups.length
@@ -104,14 +105,6 @@ function ProposeDay() {
     setIndex((current) => (current - 1 + total) % total)
   }
 
-  useEffect(() => {
-    if (!showQuestion) return
-    if (selectedOptions.length > 0) return
-    setTimedOut(false)
-    const timer = setTimeout(() => setTimedOut(true), 60000)
-    return () => clearTimeout(timer)
-  }, [selectedOptions.length, showQuestion])
-
   const launchEmojis = (emojis) => {
     const layer = reactionLayerRef.current
     if (!layer) return
@@ -134,22 +127,6 @@ function ProposeDay() {
     }
   }
 
-  useEffect(() => {
-    if (selectedOptions.length === 1) {
-      launchEmojis(['💖', '💘', '💝', '💞'])
-    } else if (selectedOptions.length === 2) {
-      launchEmojis(['💖', '😍', '💘', '💞'])
-    } else if (selectedOptions.length === 3) {
-      launchEmojis(['💖', '😘', '😍', '💘', '💞'])
-    }
-  }, [selectedOptions.length])
-
-  useEffect(() => {
-    if (timedOut && selectedOptions.length === 0) {
-      launchEmojis(['😔', '☹️', '😢'])
-    }
-  }, [timedOut, selectedOptions.length])
-
   const toggleOption = (id) => {
     setSelectedOptions((current) => {
       if (current.includes(id)) {
@@ -157,17 +134,16 @@ function ProposeDay() {
       }
       return [...current, id]
     })
-    setTimedOut(false)
+    setShowResult(false)
   }
 
-  const playDrumroll = () => {
+  const playDrumroll = (duration = 1.5) => {
     try {
       const context = new (window.AudioContext || window.webkitAudioContext)()
       const gain = context.createGain()
       gain.gain.value = 0.15
       gain.connect(context.destination)
 
-      const duration = 1.5
       const bufferSize = Math.floor(context.sampleRate * duration)
       const buffer = context.createBuffer(1, bufferSize, context.sampleRate)
       const data = buffer.getChannelData(0)
@@ -184,12 +160,52 @@ function ProposeDay() {
     }
   }
 
-  const goToQuestion = () => {
-    setShowQuestion(true)
-    playDrumroll()
+  const playCelebrationSound = () => {
+    try {
+      const context = new (window.AudioContext || window.webkitAudioContext)()
+      const gain = context.createGain()
+      gain.gain.value = 0.18
+      gain.connect(context.destination)
+
+      const duration = 5
+      const bufferSize = Math.floor(context.sampleRate * duration)
+      const buffer = context.createBuffer(1, bufferSize, context.sampleRate)
+      const data = buffer.getChannelData(0)
+      for (let i = 0; i < bufferSize; i += 1) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize)
+      }
+      const source = context.createBufferSource()
+      source.buffer = buffer
+      source.connect(gain)
+      source.start()
+      source.stop(context.currentTime + duration)
+    } catch (error) {
+      // Ignore audio errors silently
+    }
+  }
+
+  const handleShowQuestion = () => {
+    setShowPopup(true)
+    playDrumroll(3)
     requestAnimationFrame(() => {
       questionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
+  }
+
+  const handleDone = () => {
+    setShowResult(true)
+    if (selectedOptions.length === 1) {
+      launchEmojis(['💖', '💘', '💝', '💞'])
+      playCelebrationSound()
+    } else if (selectedOptions.length === 2) {
+      launchEmojis(['💖', '😍', '💘', '💞'])
+      playCelebrationSound()
+    } else if (selectedOptions.length === 3) {
+      launchEmojis(['💖', '😘', '😍', '💘', '💞'])
+      playCelebrationSound()
+    } else {
+      launchEmojis(['😔', '☹️', '😢'])
+    }
   }
 
   return (
@@ -231,78 +247,85 @@ function ProposeDay() {
         {showQuestion && (
           <>
             <div className="transition-note">Today’s important question!!</div>
-            <button type="button" className="question-arrow" onClick={goToQuestion}>
-              ↓
+            <button type="button" className="question-arrow" onClick={handleShowQuestion}>
+              →
             </button>
-            <div className="question-card" ref={questionRef}>
-              <p className="question-intro">
-                Our journey started a few months ago, the nervous me trying to fill the gaps with flowers as beautiful as you!!
-              </p>
-              <p className="question-intro">
-                We shared everything and cared deeply; some moments were delightful, others maybe not, but I love you the most!!
-              </p>
-              <p className="question-quote">
-                “You are my love, so will you be my Valentine?”
-                <span className="question-signature">— your mayalu ❤️</span>
-              </p>
-              <p className="question-hint">Choose any option(s) you like</p>
+            {showPopup && (
+              <div className="question-modal" ref={questionRef}>
+                <div className="question-card">
+                  <p className="question-intro">
+                    Our journey started a few months ago, the nervous me trying to fill the gaps with flowers as beautiful as you!!
+                  </p>
+                  <p className="question-intro">
+                    We shared everything and cared deeply; some moments were delightful, others maybe not, but I love you the most!!
+                  </p>
+                  <p className="question-quote">
+                    “You are my love, so will you be my Valentine?”
+                    <span className="question-signature">— your mayalu ❤️</span>
+                  </p>
 
-              <div className="options-grid">
-                {optionImages.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={`option-card ${selectedOptions.includes(option.id) ? 'selected' : ''}`}
-                    onClick={() => toggleOption(option.id)}
-                  >
-                    <img src={assetUrl(option.file)} alt="Valentine option" />
-                    <span className="option-check">✓</span>
+                  <div className="options-grid">
+                    {optionImages.map((option) => (
+                      <button
+                        key={option.id}
+                        type="button"
+                        className={`option-card ${selectedOptions.includes(option.id) ? 'selected' : ''}`}
+                        onClick={() => toggleOption(option.id)}
+                      >
+                        <img src={assetUrl(option.file)} alt="Valentine option" />
+                        <span className="option-check">✓</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <button type="button" className="done-button" onClick={handleDone}>
+                    Done!!
                   </button>
-                ))}
+
+                  {showResult && selectedOptions.length === 1 && (
+                    <div className="celebration">
+                      <div className="celebration-text">yes!!</div>
+                      <div className="celebration-hearts">
+                        <span>💖</span>
+                        <span>💘</span>
+                        <span>💝</span>
+                        <span>💞</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {showResult && selectedOptions.length === 2 && (
+                    <div className="celebration">
+                      <div className="celebration-text">yes!! yes yess!!</div>
+                      <div className="celebration-hearts">
+                        <span>💖</span>
+                        <span>😍</span>
+                        <span>💘</span>
+                        <span>💞</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {showResult && selectedOptions.length === 3 && (
+                    <div className="celebration">
+                      <div className="celebration-text">yes!! yes yess!! yes yess yesss!!</div>
+                      <div className="celebration-hearts">
+                        <span>💖</span>
+                        <span>😘</span>
+                        <span>😍</span>
+                        <span>💘</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {showResult && selectedOptions.length === 0 && (
+                    <div className="timeout-message">No response in time 😢</div>
+                  )}
+                </div>
+
+                <Link to="/" className="nav-link">Back to Portal 🏠</Link>
               </div>
-
-              {selectedOptions.length === 1 && (
-                <div className="celebration">
-                  <div className="celebration-text">yes!!</div>
-                  <div className="celebration-hearts">
-                    <span>💖</span>
-                    <span>💘</span>
-                    <span>💝</span>
-                    <span>💞</span>
-                  </div>
-                </div>
-              )}
-
-              {selectedOptions.length === 2 && (
-                <div className="celebration">
-                  <div className="celebration-text">yes!! yes yess!!</div>
-                  <div className="celebration-hearts">
-                    <span>💖</span>
-                    <span>😍</span>
-                    <span>💘</span>
-                    <span>💞</span>
-                  </div>
-                </div>
-              )}
-
-              {selectedOptions.length === 3 && (
-                <div className="celebration">
-                  <div className="celebration-text">yes!! yes yess!! yes yess yesss!!</div>
-                  <div className="celebration-hearts">
-                    <span>💖</span>
-                    <span>😘</span>
-                    <span>😍</span>
-                    <span>💘</span>
-                  </div>
-                </div>
-              )}
-
-              {selectedOptions.length === 0 && timedOut && (
-                <div className="timeout-message">No response in time 😢</div>
-              )}
-            </div>
-
-            <Link to="/" className="nav-link">Back to Portal 🏠</Link>
+            )}
           </>
         )}
       </div>
