@@ -83,6 +83,7 @@ function ProposeDay() {
 
   const total = slideGroups.length
   const group = slideGroups[index]
+  const isLastSlide = index === total - 1
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}propose-day/${fileName}`
 
@@ -183,66 +184,70 @@ function ProposeDay() {
           </button>
         </div>
 
-        <div className="question-card">
-          <h2>Would you like to be my Valentine? 💖</h2>
-          <p className="question-hint">Choose any option(s) you like</p>
+        {isLastSlide && (
+          <>
+            <div className="question-card">
+              <h2>Would you like to be my Valentine? 💖</h2>
+              <p className="question-hint">Choose any option(s) you like</p>
 
-          <div className="options-grid">
-            {optionImages.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                className={`option-card ${selectedOptions.includes(option.id) ? 'selected' : ''}`}
-                onClick={() => toggleOption(option.id)}
-              >
-                <img src={assetUrl(option.file)} alt="Valentine option" />
-                <span className="option-check">✓</span>
-              </button>
-            ))}
-          </div>
-
-          {selectedOptions.length === 1 && (
-            <div className="celebration">
-              <div className="celebration-text">yes!!</div>
-              <div className="celebration-hearts">
-                <span>💖</span>
-                <span>💘</span>
-                <span>💝</span>
-                <span>💞</span>
+              <div className="options-grid">
+                {optionImages.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    className={`option-card ${selectedOptions.includes(option.id) ? 'selected' : ''}`}
+                    onClick={() => toggleOption(option.id)}
+                  >
+                    <img src={assetUrl(option.file)} alt="Valentine option" />
+                    <span className="option-check">✓</span>
+                  </button>
+                ))}
               </div>
+
+              {selectedOptions.length === 1 && (
+                <div className="celebration">
+                  <div className="celebration-text">yes!!</div>
+                  <div className="celebration-hearts">
+                    <span>💖</span>
+                    <span>💘</span>
+                    <span>💝</span>
+                    <span>💞</span>
+                  </div>
+                </div>
+              )}
+
+              {selectedOptions.length === 2 && (
+                <div className="celebration">
+                  <div className="celebration-text">yes!! yes yess!!</div>
+                  <div className="celebration-hearts">
+                    <span>💖</span>
+                    <span>😍</span>
+                    <span>💘</span>
+                    <span>💞</span>
+                  </div>
+                </div>
+              )}
+
+              {selectedOptions.length === 3 && (
+                <div className="celebration">
+                  <div className="celebration-text">yes!! yes yess!! yes yess yesss!!</div>
+                  <div className="celebration-hearts">
+                    <span>💖</span>
+                    <span>😘</span>
+                    <span>😍</span>
+                    <span>💘</span>
+                  </div>
+                </div>
+              )}
+
+              {selectedOptions.length === 0 && timedOut && (
+                <div className="timeout-message">No response in time 😢</div>
+              )}
             </div>
-          )}
 
-          {selectedOptions.length === 2 && (
-            <div className="celebration">
-              <div className="celebration-text">yes!! yes yess!!</div>
-              <div className="celebration-hearts">
-                <span>💖</span>
-                <span>😍</span>
-                <span>💘</span>
-                <span>💞</span>
-              </div>
-            </div>
-          )}
-
-          {selectedOptions.length === 3 && (
-            <div className="celebration">
-              <div className="celebration-text">yes!! yes yess!! yes yess yesss!!</div>
-              <div className="celebration-hearts">
-                <span>💖</span>
-                <span>😘</span>
-                <span>😍</span>
-                <span>💘</span>
-              </div>
-            </div>
-          )}
-
-          {selectedOptions.length === 0 && timedOut && (
-            <div className="timeout-message">No response in time 😢</div>
-          )}
-        </div>
-
-        <Link to="/" className="nav-link">Back to Portal 🏠</Link>
+            <Link to="/" className="nav-link">Back to Portal 🏠</Link>
+          </>
+        )}
       </div>
     </div>
   )

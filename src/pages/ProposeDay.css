@@ -60,7 +60,7 @@
 
 .slide-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(10px, 2vw, 16px);
 }
 
@@ -74,7 +74,7 @@
 
 .slide-tile img {
   width: 100%;
-  height: clamp(220px, 38vh, 360px);
+  height: clamp(260px, 42vh, 420px);
   object-fit: contain;
   display: block;
   background: #fff;
@@ -279,6 +279,6 @@
   }
 
   .slide-tile img {
-    height: clamp(220px, 45vh, 320px);
+    height: clamp(240px, 50vh, 340px);
   }
 }
