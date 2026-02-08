@@ -13,6 +13,10 @@
   max-width: 800px;
   width: 100%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .valentine-card {
@@ -255,7 +259,9 @@
 
 .back-button {
   display: inline-block;
+  align-self: flex-start;
   margin-bottom: 15px;
+  margin-left: clamp(4px, 1vw, 10px);
   padding: 10px 20px;
   background: rgba(255, 255, 255, 0.25);
   color: white;
