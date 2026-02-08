@@ -24,6 +24,7 @@
   animation: fadeIn 1s ease-in;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .card::before {
@@ -37,6 +38,12 @@
   background-size: 50px 50px;
   animation: sparkle 3s linear infinite;
   pointer-events: none;
+  z-index: 0;
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes fadeIn {
