@@ -1,0 +1,318 @@
+.valentine-container {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.valentine-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 50px 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1s ease-in;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+.valentine-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 192, 203, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: sparkle 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.valentine-title {
+  font-size: 2.8em;
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.valentine-subtitle {
+  font-size: 1.3em;
+  color: #c44569;
+  margin-bottom: 40px;
+  text-align: center;
+  font-style: italic;
+}
+
+.roadmap {
+  position: relative;
+  padding: 20px 0;
+  z-index: 5;
+}
+
+.roadmap-line {
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #ff6b9d 0%, #c44569 100%);
+  border-radius: 2px;
+}
+
+.roadmap-item {
+  position: relative;
+  margin-bottom: 30px;
+  padding-left: 80px;
+  animation: slideInLeft 0.6s ease-out;
+  animation-fill-mode: both;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  pointer-events: auto;
+}
+
+.roadmap-item:nth-child(1) { animation-delay: 0.1s; }
+.roadmap-item:nth-child(2) { animation-delay: 0.2s; }
+.roadmap-item:nth-child(3) { animation-delay: 0.3s; }
+.roadmap-item:nth-child(4) { animation-delay: 0.4s; }
+.roadmap-item:nth-child(5) { animation-delay: 0.5s; }
+.roadmap-item:nth-child(6) { animation-delay: 0.6s; }
+.roadmap-item:nth-child(7) { animation-delay: 0.7s; }
+.roadmap-item:nth-child(8) { animation-delay: 0.8s; }
+
+.roadmap-item.blurred {
+  filter: blur(3px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.roadmap-item.active {
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 10;
+  position: relative;
+}
+
+.roadmap-item.active .roadmap-content {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.roadmap-item.active:hover .roadmap-content {
+  transform: translateX(10px) scale(1.02);
+  box-shadow: 0 12px 35px rgba(196, 69, 105, 0.35);
+  border-left-width: 6px;
+}
+
+.roadmap-item.active:hover .roadmap-dot {
+  transform: scale(1.5);
+  box-shadow: 0 8px 25px rgba(196, 69, 105, 0.7);
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.roadmap-dot {
+  position: absolute;
+  left: 18px;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 4px 10px rgba(196, 69, 105, 0.4);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.roadmap-item:hover .roadmap-dot {
+  transform: scale(1.3);
+  box-shadow: 0 6px 20px rgba(196, 69, 105, 0.6);
+}
+
+.roadmap-content {
+  background: linear-gradient(135deg, #fff5f7 0%, #ffeef2 100%);
+  border-left: 4px solid #ff6b9d;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(196, 69, 105, 0.15);
+  transition: all 0.3s ease;
+}
+
+.roadmap-item:hover .roadmap-content {
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(196, 69, 105, 0.25);
+}
+
+.roadmap-date {
+  font-size: 0.95em;
+  color: #c44569;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.roadmap-day {
+  font-size: 1.4em;
+  color: #ff6b9d;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.roadmap-description {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+}
+
+.day-emoji {
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.nav-link {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hearts {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.heart {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    opacity: 0;
+    transform: translateY(100vh) scale(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .valentine-card {
+    padding: 30px 20px;
+  }
+
+  .valentine-title {
+    font-size: 2em;
+  }
+
+  .valentine-subtitle {
+    font-size: 1.1em;
+  }
+
+  .roadmap-item {
+    padding-left: 60px;
+  }
+
+  .roadmap-line {
+    left: 20px;
+  }
+
+  .roadmap-dot {
+    left: 8px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .roadmap-day {
+    font-size: 1.2em;
+  }
+
+  .roadmap-description {
+    font-size: 0.9em;
+  }
+}

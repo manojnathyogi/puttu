@@ -1,83 +1,160 @@
-# New Year Card Website 💕
+# Portal to Connect Virtually 💕
 
-A beautiful, animated New Year card website with a reveal button that shows a special letter.
+A beautiful React-based single-page application (SPA) for sharing memories and celebrating special moments.
 
-## Features
+## 🚀 Features
 
-- ✨ Beautiful gradient background with animations
-- 💌 Click button to reveal a special letter
-- 🎉 Confetti animation when letter is revealed
-- 💕 Floating hearts animation
-- 📱 Fully responsive design
-- 🌐 Ready for GitHub Pages hosting
+- 🎉 **New Year Letter** - A heartfelt letter with reveal animation
+- 💕 **Valentine Week 2026** - Interactive roadmap of Valentine's week
+- 🌹 **Rose Day** - Special page with comment system and image uploads
+- 📱 **Fully Responsive** - Works seamlessly on all devices and screen sizes
+- 🎨 **Beautiful Animations** - Floating hearts, petals, and smooth transitions
+- 💾 **Local Storage** - Comments persist across sessions
+- 🖼️ **Image Uploads** - Share images in comments
 
-## How to Customize Your Letter
+## 📋 Prerequisites
 
-1. Open `index.html` in a text editor
-2. Find the section with `id="letterContent"` (around line 200)
-3. Replace the placeholder text with your own letter
-4. Save the file
+- **Node.js** (v16.0.0 or higher)
+- **npm** (v7.0.0 or higher) or **yarn** (v1.22.0 or higher)
 
-## How to Deploy to GitHub Pages
+## 🛠️ Installation
 
-### Step 1: Create a GitHub Repository
-
-1. Go to [GitHub](https://github.com) and sign in
-2. Click the "+" icon in the top right corner
-3. Select "New repository"
-4. Name it something like `new-year-card` or `happy-new-year-2025`
-5. Make it **Public** (required for free GitHub Pages)
-6. Click "Create repository"
-
-### Step 2: Upload Your Files
-
-**Option A: Using GitHub Web Interface**
-1. In your new repository, click "uploading an existing file"
-2. Drag and drop the `index.html` file
-3. Click "Commit changes"
-
-**Option B: Using Git Command Line**
+1. **Clone the repository** (if not already done):
 ```bash
-cd new-year-card
-git init
-git add index.html README.md
-git commit -m "Initial commit: New Year card website"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-git push -u origin main
+git clone https://github.com/manojnathyogi/puttu.git
+cd puttu
 ```
 
-### Step 3: Enable GitHub Pages
+2. **Install dependencies**:
+```bash
+npm install
+```
 
-1. Go to your repository on GitHub
-2. Click on "Settings" tab
-3. Scroll down to "Pages" section (in the left sidebar)
-4. Under "Source", select "Deploy from a branch"
-5. Choose "main" branch and "/ (root)" folder
-6. Click "Save"
-7. Wait a few minutes for GitHub to deploy your site
-8. Your site will be available at: `https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/`
+## 🏃 Running the Application
 
-## Customization Tips
+### Development Mode
 
-- **Change colors**: Modify the gradient colors in the CSS (search for `#667eea` and `#764ba2`)
-- **Change fonts**: Update the `font-family` in the CSS
-- **Add images**: You can add images by including `<img>` tags in your letter content
-- **Change animations**: Adjust animation durations and effects in the CSS `@keyframes` sections
+Start the development server:
+```bash
+npm run dev
+```
 
-## Browser Support
+The application will open automatically at `http://localhost:3000`
 
-Works on all modern browsers:
-- Chrome
-- Firefox
-- Safari
-- Edge
+### Production Build
 
-## License
+Build the application for production:
+```bash
+npm run build
+```
 
-This is a personal project. Feel free to use and modify as you like!
+The optimized production files will be in the `dist` folder.
+
+### Preview Production Build
+
+Preview the production build locally:
+```bash
+npm run preview
+```
+
+## 📁 Project Structure
+
+```
+puttu/
+├── public/                 # Static assets
+│   ├── rose-day.png       # Rose bouquet image
+│   ├── rose-person.JPEG   # Person photo
+│   └── vite.svg           # Favicon
+├── src/
+│   ├── pages/             # Route-level React pages
+│   │   ├── Portal.jsx     # Landing page component
+│   │   ├── Portal.css     # Portal styles
+│   │   ├── NewYear.jsx    # New Year letter component
+│   │   ├── NewYear.css    # New Year styles
+│   │   ├── Valentine.jsx  # Valentine roadmap component
+│   │   ├── Valentine.css  # Valentine styles
+│   │   ├── RoseDay.jsx    # Rose Day page component
+│   │   └── RoseDay.css    # Rose Day styles
+│   ├── App.jsx            # Main app component with routing
+│   ├── main.jsx           # Application entry point
+│   └── index.css          # Global styles
+├── .eslintrc.cjs          # ESLint configuration
+├── .gitignore             # Git ignore rules
+├── index.html             # HTML template
+├── package.json           # Project dependencies and scripts
+├── vite.config.js         # Vite configuration
+└── README.md              # This file
+```
+
+## 🗺️ Routes
+
+- `/` - Portal/Home page with navigation links
+- `/newyear` - New Year Letter page
+- `/valentine` - Valentine Week roadmap
+- `/rose-day` - Rose Day page with comments and animations
+
+## 🛠️ Technologies Used
+
+- **React 18.3** - UI library
+- **React Router DOM 6.30** - Client-side routing
+- **Vite 5.4** - Build tool and dev server
+- **CSS3** - Styling with animations and responsive design
+- **ESLint** - Code linting
+
+## 📝 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## 🎨 Key Features Explained
+
+### Portal Page
+- Central landing page with side navigation
+- Floating heart animations
+- Image placeholders for personal photos
+
+### New Year Letter
+- Animated letter reveal
+- Smooth scroll animations
+- Responsive typography
+
+### Valentine Roadmap
+- Interactive roadmap showing Valentine Week 2026
+- Only active days are clickable (currently Rose Day)
+- Blurred inactive days with road visuals
+
+### Rose Day Page
+- Animated rose bouquet rising from bottom
+- Person's photo appearing slowly
+- Comment system with localStorage persistence
+- Image upload functionality
+- Floating hearts and petals animations
+
+## 🔧 Configuration
+
+### Vite Configuration
+The project uses Vite with React plugin. Configuration can be modified in `vite.config.js`.
+
+### ESLint Configuration
+Code quality is enforced via ESLint. Configuration is in `.eslintrc.cjs`.
+
+## 📱 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 🤝 Contributing
+
+This is a personal project, but feel free to fork and modify for your own use!
+
+## 📄 License
+
+Personal project - feel free to use and modify!
 
 ---
 
 Made with ❤️ for someone special
-
