@@ -42,19 +42,19 @@ function Portal() {
           <div className="images-container">
             <div className="image-placeholder">
               <img
-                src={`${import.meta.env.BASE_URL}homepage/104_3443.JPEG`}
+                src={`${import.meta.env.BASE_URL}homepage/104_3443.JPEG?v=20260207a`}
                 alt="Homepage memory 1"
               />
             </div>
             <div className="image-placeholder">
               <img
-                src={`${import.meta.env.BASE_URL}homepage/IMG_3682.jpg`}
+                src={`${import.meta.env.BASE_URL}homepage/IMG_3682.jpg?v=20260207a`}
                 alt="Homepage memory 2"
               />
             </div>
             <div className="image-placeholder">
               <img
-                src={`${import.meta.env.BASE_URL}homepage/IMG_3805.jpg`}
+                src={`${import.meta.env.BASE_URL}homepage/IMG_3805.jpg?v=20260207a`}
                 alt="Homepage memory 3"
               />
             </div>
