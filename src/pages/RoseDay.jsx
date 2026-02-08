@@ -85,17 +85,19 @@ function RoseDay() {
     const layer = reactionsLayerRef.current
     if (!layer) return
 
-    const reaction = document.createElement('span')
-    reaction.className = 'reaction-float'
-    reaction.textContent = emoji
-    reaction.style.left = `${Math.random() * 80 + 10}%`
-    reaction.style.setProperty('--x-shift', `${Math.random() * 60 - 30}px`)
-    reaction.style.animationDuration = `${Math.random() * 1.5 + 3.5}s`
-    layer.appendChild(reaction)
+    for (let i = 0; i < 5; i += 1) {
+      const reaction = document.createElement('span')
+      reaction.className = 'reaction-float'
+      reaction.textContent = emoji
+      reaction.style.left = `${Math.random() * 80 + 10}%`
+      reaction.style.setProperty('--x-shift', `${Math.random() * 60 - 30}px`)
+      reaction.style.animationDuration = `${Math.random() * 1.8 + 3.2}s`
+      layer.appendChild(reaction)
 
-    setTimeout(() => {
-      reaction.remove()
-    }, 5000)
+      setTimeout(() => {
+        reaction.remove()
+      }, 5500)
+    }
   }
 
   return (
