@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './RoseDay.css'
 
@@ -7,6 +7,7 @@ const STORAGE_KEY = 'roseDayComments'
 function RoseDay() {
   const [comments, setComments] = useState([])
   const [commentText, setCommentText] = useState('')
+  const reactionsLayerRef = useRef(null)
 
   useEffect(() => {
     loadComments()
@@ -80,12 +81,30 @@ function RoseDay() {
     setCommentText('')
   }
 
+  const triggerReaction = (emoji) => {
+    const layer = reactionsLayerRef.current
+    if (!layer) return
+
+    const reaction = document.createElement('span')
+    reaction.className = 'reaction-float'
+    reaction.textContent = emoji
+    reaction.style.left = `${Math.random() * 80 + 10}%`
+    reaction.style.setProperty('--x-shift', `${Math.random() * 60 - 30}px`)
+    reaction.style.animationDuration = `${Math.random() * 1.5 + 3.5}s`
+    layer.appendChild(reaction)
+
+    setTimeout(() => {
+      reaction.remove()
+    }, 5000)
+  }
+
   return (
     <div className="roseday-container">
       <Link to="/valentine" className="back-button">← Back</Link>
 
       <div className="hearts" id="hearts"></div>
       <div className="petals" id="petals"></div>
+      <div className="reactions-layer" ref={reactionsLayerRef}></div>
 
       <div className="title-section">
         <h1>Happy Rose Day! 🌹</h1>
@@ -136,6 +155,16 @@ function RoseDay() {
         <div className="rose-bouquet">
           <img src={`${import.meta.env.BASE_URL}rose-day.png`} alt="Rose Bouquet" />
         </div>
+      </div>
+
+      <div className="reaction-bar">
+        <button type="button" onClick={() => triggerReaction('😍')}>😍</button>
+        <button type="button" onClick={() => triggerReaction('😘')}>😘</button>
+        <button type="button" onClick={() => triggerReaction('💑')}>💑</button>
+        <button type="button" onClick={() => triggerReaction('🌹')}>🌹</button>
+        <button type="button" onClick={() => triggerReaction('😔')}>😔</button>
+        <button type="button" onClick={() => triggerReaction('☹️')}>☹️</button>
+        <button type="button" onClick={() => triggerReaction('😢')}>😢</button>
       </div>
     </div>
   )

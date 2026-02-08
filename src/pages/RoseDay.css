@@ -292,6 +292,28 @@
   z-index: 1;
 }
 
+.reactions-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  overflow: hidden;
+}
+
+.reaction-float {
+  position: absolute;
+  bottom: clamp(40px, 8vh, 80px);
+  font-size: clamp(14px, 1.6vw, 20px);
+  opacity: 0;
+  animation: floatReactions 4s ease-in-out forwards;
+}
+
+@keyframes floatReactions {
+  0% { opacity: 0; transform: translateY(0) translateX(0) scale(0.9); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-220px) translateX(var(--x-shift)) scale(1.1); }
+}
+
 .heart {
   position: absolute;
   font-size: clamp(15px, 1.5vw, 20px);
@@ -377,6 +399,42 @@
 
   .comment-input-box { padding: clamp(12px, 1.8vw, 14px); }
   .comments-display { max-height: clamp(200px, 30vh, 250px); }
+}
+
+.reaction-bar {
+  position: fixed;
+  bottom: clamp(12px, 3vh, 28px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  display: flex;
+  gap: clamp(6px, 1vw, 10px);
+  padding: clamp(6px, 1vw, 10px) clamp(10px, 1.5vw, 14px);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.reaction-bar button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(14px, 1.6vw, 20px);
+  line-height: 1;
+  padding: 2px;
+  transition: transform 0.2s ease;
+}
+
+.reaction-bar button:hover {
+  transform: translateY(-2px) scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .reaction-bar {
+    bottom: clamp(10px, 2.5vh, 20px);
+    gap: clamp(4px, 0.8vw, 8px);
+  }
 }
 
 @media (max-width: 480px) {
