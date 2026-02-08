@@ -8,6 +8,7 @@
   font-family: 'Georgia', 'Times New Roman', serif;
   background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
   min-height: 100vh;
+  padding-top: clamp(70px, 10vh, 140px);
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
@@ -26,7 +27,7 @@
 
 .person-background {
   position: fixed;
-  top: 50%;
+  top: calc(50% + clamp(20px, 4vh, 60px));
   left: 50%;
   transform: translate(-50%, -50%);
   width: clamp(300px, 60vw, 800px);
@@ -163,11 +164,6 @@
   box-shadow: 0 0 10px rgba(255, 107, 157, 0.3);
 }
 
-.comment-input-box input[type="file"] {
-  width: 100%;
-  font-size: clamp(0.7em, 0.85vw, 0.8em);
-  margin-bottom: clamp(8px, 1vw, 10px);
-}
 
 .comment-buttons {
   display: flex;
@@ -256,12 +252,6 @@
   word-break: break-word;
 }
 
-.comment-image {
-  width: 100%;
-  border-radius: clamp(6px, 0.8vw, 10px);
-  display: block;
-  box-shadow: 0 clamp(3px, 0.5vw, 6px) clamp(10px, 1.5vw, 18px) rgba(0,0,0,0.15);
-}
 
 .no-comments {
   text-align: center;

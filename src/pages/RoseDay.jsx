@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './RoseDay.css'
 
@@ -7,8 +7,6 @@ const STORAGE_KEY = 'roseDayComments'
 function RoseDay() {
   const [comments, setComments] = useState([])
   const [commentText, setCommentText] = useState('')
-  const [commentImage, setCommentImage] = useState(null)
-  const fileInputRef = useRef(null)
 
   useEffect(() => {
     loadComments()
@@ -58,31 +56,21 @@ function RoseDay() {
 
   const addComment = (author) => {
     const text = commentText.trim()
-    const file = commentImage
 
-    if (!text && !file) {
-      alert('Please write a wish or add an image!')
+    if (!text) {
+      alert('Please write a wish!')
       return
     }
 
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = () => {
-        saveComment(author, text, reader.result)
-      }
-      reader.readAsDataURL(file)
-    } else {
-      saveComment(author, text, null)
-    }
+    saveComment(author, text)
   }
 
-  const saveComment = (author, text, imageBase64) => {
+  const saveComment = (author, text) => {
     const newComments = [
       ...comments,
       {
         author,
         text,
-        image: imageBase64,
         timestamp: new Date().toISOString()
       }
     ]
@@ -90,10 +78,6 @@ function RoseDay() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newComments))
     setComments(newComments)
     setCommentText('')
-    setCommentImage(null)
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
   }
 
   return (
@@ -114,14 +98,6 @@ function RoseDay() {
             placeholder="Rose Day wishes..."
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
-          />
-
-          <input
-            id="commentImage"
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={(e) => setCommentImage(e.target.files[0] || null)}
           />
 
           <div className="comment-buttons">
@@ -145,9 +121,6 @@ function RoseDay() {
                 </div>
                 {comment.text && (
                   <div className="comment-text">{comment.text}</div>
-                )}
-                {comment.image && (
-                  <img className="comment-image" src={comment.image} alt="Comment" />
                 )}
               </div>
             ))
