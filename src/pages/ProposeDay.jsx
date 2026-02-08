@@ -76,23 +76,12 @@ const optionImages = [
 ]
 
 function ProposeDay() {
-  const frames = useMemo(
-    () =>
-      slideGroups.flatMap((group) =>
-        group.images.map((image) => ({
-          image,
-          caption: group.caption
-        }))
-      ),
-    []
-  )
-
   const [index, setIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState([])
   const [timedOut, setTimedOut] = useState(false)
 
-  const total = frames.length
-  const frame = frames[index]
+  const total = slideGroups.length
+  const group = slideGroups[index]
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}propose-day/${fileName}`
 
@@ -135,8 +124,14 @@ function ProposeDay() {
           </button>
 
           <div className="slide-content">
-            <img src={assetUrl(frame.image)} alt="Memory" />
-            <div className="slide-caption">{frame.caption}</div>
+            <div className="slide-grid">
+              {group.images.map((image) => (
+                <div key={image} className="slide-tile">
+                  <img src={assetUrl(image)} alt="Memory" />
+                </div>
+              ))}
+            </div>
+            <div className="slide-caption">{group.caption}</div>
             <div className="slide-count">
               {index + 1} / {total}
             </div>
