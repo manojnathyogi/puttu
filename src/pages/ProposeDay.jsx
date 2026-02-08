@@ -258,7 +258,7 @@ function ProposeDay() {
       <Link to="/valentine" className="back-button">← Back</Link>
 
       <div className="propose-card">
-        <h1>Propose Day 💍</h1>
+        <h1>Propose Day ❤️</h1>
         <p className="subtitle">A journey of our beautiful moments</p>
 
         {!showQuestion && (
