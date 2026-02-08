@@ -12,16 +12,20 @@ const slideGroups = [
     images: ['564207264_2494041114302379_4354728786534093223_n.jpg']
   },
   {
-    caption: 'First visit to your dance celebration event in Georgetown',
+    caption: 'First visit to your dance celebration event in University of Richmond',
     images: ['38F4EA7D-6333-479D-B35B-F2F8332655BF.jpeg']
   },
   {
-    caption: 'Honour to have you in Hunsa event (first since I met you)',
+    caption: 'Honour to have you with me first time in Hunsa event (first since I met you)',
     images: ['IMG_1616.JPG']
   },
   {
     caption: 'First joyful day with you in cat cafe',
     images: ['IMG_3367.jpg']
+  },
+  {
+    caption: 'Read your first thoughtful book',
+    images: ['IMG_5743.JPG']
   },
   {
     caption: 'First Richmond town walk around',
@@ -33,7 +37,7 @@ const slideGroups = [
   },
   {
     caption: 'Me trying your beautiful cloth choice',
-    images: ['2a46f9d417260d72e74bfc1f0bf361c0.JPEG']
+    images: ['IMG_5279.JPG']
   },
   {
     caption: 'First grand party with your music and first salsa with you',
