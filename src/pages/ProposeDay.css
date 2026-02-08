@@ -69,13 +69,15 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  padding: 8px;
 }
 
 .slide-tile img {
   width: 100%;
-  height: clamp(200px, 28vh, 260px);
-  object-fit: cover;
+  height: clamp(220px, 38vh, 360px);
+  object-fit: contain;
   display: block;
+  background: #fff;
 }
 
 .slide-caption {
@@ -131,6 +133,28 @@
   margin: 0 0 18px;
   color: #7a2d45;
   font-size: 0.95em;
+}
+
+.proposal-reactions {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+}
+
+.proposal-float {
+  position: absolute;
+  bottom: clamp(40px, 8vh, 90px);
+  font-size: clamp(16px, 2vw, 24px);
+  opacity: 0;
+  animation: proposalFloat 4.8s ease-in-out forwards;
+}
+
+@keyframes proposalFloat {
+  0% { opacity: 0; transform: translateY(0) translateX(0) scale(0.9) rotate(0deg); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-260px) translateX(var(--x-shift)) scale(1.1) rotate(360deg); }
 }
 
 .options-grid {
@@ -255,6 +279,6 @@
   }
 
   .slide-tile img {
-    height: clamp(200px, 40vh, 280px);
+    height: clamp(220px, 45vh, 320px);
   }
 }

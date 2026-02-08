@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './ProposeDay.css'
 
@@ -79,6 +79,7 @@ function ProposeDay() {
   const [index, setIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState([])
   const [timedOut, setTimedOut] = useState(false)
+  const reactionLayerRef = useRef(null)
 
   const total = slideGroups.length
   const group = slideGroups[index]
@@ -93,11 +94,50 @@ function ProposeDay() {
     setIndex((current) => (current - 1 + total) % total)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedOptions.length > 0) return
+    setTimedOut(false)
     const timer = setTimeout(() => setTimedOut(true), 60000)
     return () => clearTimeout(timer)
   }, [selectedOptions.length])
+
+  const launchEmojis = (emojis) => {
+    const layer = reactionLayerRef.current
+    if (!layer) return
+
+    const totalBursts = 18
+    for (let i = 0; i < totalBursts; i += 1) {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)]
+      const particle = document.createElement('span')
+      particle.className = 'proposal-float'
+      particle.textContent = emoji
+      particle.style.left = `${Math.random() * 90 + 5}%`
+      particle.style.setProperty('--x-shift', `${Math.random() * 80 - 40}px`)
+      particle.style.animationDuration = `${Math.random() * 1.8 + 3.5}s`
+      particle.style.animationDelay = `${Math.random() * 0.6}s`
+      layer.appendChild(particle)
+
+      setTimeout(() => {
+        particle.remove()
+      }, 6000)
+    }
+  }
+
+  useEffect(() => {
+    if (selectedOptions.length === 1) {
+      launchEmojis(['💖', '💘', '💝', '💞'])
+    } else if (selectedOptions.length === 2) {
+      launchEmojis(['💖', '😍', '💘', '💞'])
+    } else if (selectedOptions.length === 3) {
+      launchEmojis(['💖', '😘', '😍', '💘', '💞'])
+    }
+  }, [selectedOptions.length])
+
+  useEffect(() => {
+    if (timedOut && selectedOptions.length === 0) {
+      launchEmojis(['😔', '☹️', '😢'])
+    }
+  }, [timedOut, selectedOptions.length])
 
   const toggleOption = (id) => {
     setSelectedOptions((current) => {
@@ -112,6 +152,7 @@ function ProposeDay() {
   return (
     <div className="propose-container">
       <div className="propose-background"></div>
+      <div className="proposal-reactions" ref={reactionLayerRef}></div>
       <Link to="/valentine" className="back-button">← Back</Link>
 
       <div className="propose-card">
@@ -144,7 +185,7 @@ function ProposeDay() {
 
         <div className="question-card">
           <h2>Would you like to be my Valentine? 💖</h2>
-          <p className="question-hint">You can choose one, two, or all</p>
+          <p className="question-hint">Choose any option(s) you like</p>
 
           <div className="options-grid">
             {optionImages.map((option) => (
@@ -160,14 +201,38 @@ function ProposeDay() {
             ))}
           </div>
 
-          {selectedOptions.length > 0 && (
+          {selectedOptions.length === 1 && (
             <div className="celebration">
-              <div className="celebration-text">yes, yes yess, yes yess, yesss!!!</div>
+              <div className="celebration-text">yes!!</div>
               <div className="celebration-hearts">
                 <span>💖</span>
                 <span>💘</span>
                 <span>💝</span>
                 <span>💞</span>
+              </div>
+            </div>
+          )}
+
+          {selectedOptions.length === 2 && (
+            <div className="celebration">
+              <div className="celebration-text">yes!! yes yess!!</div>
+              <div className="celebration-hearts">
+                <span>💖</span>
+                <span>😍</span>
+                <span>💘</span>
+                <span>💞</span>
+              </div>
+            </div>
+          )}
+
+          {selectedOptions.length === 3 && (
+            <div className="celebration">
+              <div className="celebration-text">yes!! yes yess!! yes yess yesss!!</div>
+              <div className="celebration-hearts">
+                <span>💖</span>
+                <span>😘</span>
+                <span>😍</span>
+                <span>💘</span>
               </div>
             </div>
           )}
