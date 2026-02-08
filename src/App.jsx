@@ -7,7 +7,7 @@ import RoseDay from './pages/RoseDay'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/puttu">
       <Routes>
         <Route path="/" element={<Portal />} />
         <Route path="/newyear" element={<NewYear />} />
