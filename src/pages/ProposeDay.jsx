@@ -99,6 +99,7 @@ function ProposeDay() {
   const soundUrl = `${import.meta.env.BASE_URL}sound/Take%20me%20home.mp3`
   const celebrationUrl = `${import.meta.env.BASE_URL}sound/celebration_sound.mp3`
   const sadUrl = `${import.meta.env.BASE_URL}sound/sad.mp3`
+  const drumrollUrl = `${import.meta.env.BASE_URL}sound/drumroll.mp3`
 
   const goNext = () => {
     if (index === total - 1) {
@@ -180,24 +181,13 @@ function ProposeDay() {
     setShowResult(false)
   }
 
-  const playDrumroll = (duration = 1.5) => {
+  const playDrumroll = () => {
     try {
-      const context = new (window.AudioContext || window.webkitAudioContext)()
-      const gain = context.createGain()
-      gain.gain.value = 0.15
-      gain.connect(context.destination)
-
-      const bufferSize = Math.floor(context.sampleRate * duration)
-      const buffer = context.createBuffer(1, bufferSize, context.sampleRate)
-      const data = buffer.getChannelData(0)
-      for (let i = 0; i < bufferSize; i += 1) {
-        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize)
-      }
-      const source = context.createBufferSource()
-      source.buffer = buffer
-      source.connect(gain)
-      source.start()
-      source.stop(context.currentTime + duration)
+      const audio = new Audio(drumrollUrl)
+      audio.volume = 0.9
+      audio.play().catch(() => {
+        // Ignore autoplay errors if blocked.
+      })
     } catch (error) {
       // Ignore audio errors silently
     }
@@ -229,7 +219,7 @@ function ProposeDay() {
 
   const handleShowQuestion = () => {
     setShowPopup(true)
-    playDrumroll(3)
+    playDrumroll()
     requestAnimationFrame(() => {
       questionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
