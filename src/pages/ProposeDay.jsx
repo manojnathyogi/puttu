@@ -70,9 +70,9 @@ const slideGroups = [
 ]
 
 const optionImages = [
-  { id: 'option-1', file: '01DD37EC-A61B-4A16-9EB7-2D7E891550AD.jpg' },
-  { id: 'option-2', file: 'IMG_5250.JPG' },
-  { id: 'option-3', file: 'B024FC4C-9BE1-47A9-8825-BB76A2882FB8.jpeg' }
+  { id: 'option-1', file: '01DD37EC-A61B-4A16-9EB7-2D7E891550AD.jpg', caption: 'you make me angry!!' },
+  { id: 'option-2', file: 'IMG_5250.JPG', caption: 'curious and happy me!!' },
+  { id: 'option-3', file: 'B024FC4C-9BE1-47A9-8825-BB76A2882FB8.jpeg', caption: 'childish and cute: puttu muttu' }
 ]
 
 function ProposeDay() {
@@ -82,12 +82,14 @@ function ProposeDay() {
   const [showPopup, setShowPopup] = useState(false)
   const [showResult, setShowResult] = useState(false)
   const reactionLayerRef = useRef(null)
+  const audioRef = useRef(null)
 
   const total = slideGroups.length
   const group = slideGroups[index]
   const questionRef = useRef(null)
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}propose-day/${fileName}`
+  const soundUrl = `${import.meta.env.BASE_URL}sound/Take%20me%20home.mp3`
 
   const goNext = () => {
     if (index === total - 1) {
@@ -104,6 +106,15 @@ function ProposeDay() {
     }
     setIndex((current) => (current - 1 + total) % total)
   }
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.volume = 0.35
+    audio.play().catch(() => {
+      // Autoplay may be blocked until user interacts.
+    })
+  }, [])
 
   const launchEmojis = (emojis) => {
     const layer = reactionLayerRef.current
@@ -128,6 +139,7 @@ function ProposeDay() {
   }
 
   const toggleOption = (id) => {
+    if (showResult) return
     setSelectedOptions((current) => {
       if (current.includes(id)) {
         return current.filter((option) => option !== id)
@@ -193,6 +205,7 @@ function ProposeDay() {
   }
 
   const handleDone = () => {
+    if (showResult) return
     setShowResult(true)
     if (selectedOptions.length === 1) {
       launchEmojis(['💖', '💘', '💝', '💞'])
@@ -212,6 +225,7 @@ function ProposeDay() {
     <div className="propose-container">
       <div className="propose-background"></div>
       <div className="proposal-reactions" ref={reactionLayerRef}></div>
+      <audio ref={audioRef} src={soundUrl} loop />
       <Link to="/valentine" className="back-button">← Back</Link>
 
       <div className="propose-card">
@@ -266,19 +280,21 @@ function ProposeDay() {
 
                   <div className="options-grid">
                     {optionImages.map((option) => (
-                      <button
+                    <button
                         key={option.id}
                         type="button"
                         className={`option-card ${selectedOptions.includes(option.id) ? 'selected' : ''}`}
                         onClick={() => toggleOption(option.id)}
+                      disabled={showResult}
                       >
                         <img src={assetUrl(option.file)} alt="Valentine option" />
                         <span className="option-check">✓</span>
+                      <span className="option-caption">{option.caption}</span>
                       </button>
                     ))}
                   </div>
 
-                  <button type="button" className="done-button" onClick={handleDone}>
+                  <button type="button" className="done-button" onClick={handleDone} disabled={showResult}>
                     Done!!
                   </button>
 
