@@ -4,7 +4,7 @@ import './Valentine.css'
 
 const roadmapDays = [
   { emoji: '🌹', date: 'February 7 (Saturday)', day: 'Rose Day', description: 'Gifting roses to express love or admiration.', active: true, link: '/rose-day' },
-  { emoji: '💍', date: 'February 8 (Sunday)', day: 'Propose Day', description: 'A day to express feelings or propose to a partner.', active: true, link: '/propose-day' },
+  { emoji: '❤️', date: 'February 8 (Sunday)', day: 'Propose Day', description: 'A day to express feelings or propose to a partner.', active: true, link: '/propose-day' },
   { emoji: '🍫', date: 'February 9 (Monday)', day: 'Chocolate Day', description: 'Sharing chocolates to sweeten the relationship.', active: false },
   { emoji: '🧸', date: 'February 10 (Tuesday)', day: 'Teddy Day', description: 'Gifting teddy bears or soft toys.', active: false },
   { emoji: '🤝', date: 'February 11 (Wednesday)', day: 'Promise Day', description: 'Making lasting commitments to each other.', active: false },
