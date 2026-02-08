@@ -186,6 +186,7 @@ function ProposeDay() {
 
         {isLastSlide && (
           <>
+            <div className="transition-note">Today’s important question!!</div>
             <div className="question-card">
               <h2>Would you like to be my Valentine? 💖</h2>
               <p className="question-hint">Choose any option(s) you like</p>

@@ -124,6 +124,15 @@
   box-shadow: 0 10px 25px rgba(196, 69, 105, 0.15);
 }
 
+.transition-note {
+  margin: 18px 0 12px;
+  font-size: clamp(1.1em, 2.2vw, 1.6em);
+  font-weight: 700;
+  color: #c44569;
+  letter-spacing: 0.5px;
+  text-shadow: 0 8px 18px rgba(196, 69, 105, 0.25);
+}
+
 .question-card h2 {
   margin: 0 0 8px;
   color: #c44569;
