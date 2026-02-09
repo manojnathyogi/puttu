@@ -113,6 +113,10 @@
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
 }
 
+.door-top-image {
+  margin-bottom: 16px;
+}
+
 .door-message {
   margin-top: 14px;
   color: #7a3e1d;
@@ -142,7 +146,7 @@
 .choice-card img {
   width: 100%;
   height: auto;
-  max-height: 260px;
+  max-height: 340px;
   object-fit: contain;
   border-radius: 12px;
 }
