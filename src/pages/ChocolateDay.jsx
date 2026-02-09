@@ -4,12 +4,36 @@ import './ChocolateDay.css'
 
 function ChocolateDay() {
   const [doorOpen, setDoorOpen] = useState(false)
+  const [doorOpening, setDoorOpening] = useState(false)
   const [selected, setSelected] = useState([])
   const [showResult, setShowResult] = useState(false)
   const reactionLayerRef = useRef(null)
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}chocolate-day/${fileName}`
   const awwwUrl = `${import.meta.env.BASE_URL}sound/awww.mp3`
+  const doorOpenUrl = `${import.meta.env.BASE_URL}sound/door-open.mp3`
+
+  const playDoorOpen = () => {
+    try {
+      const audio = new Audio(doorOpenUrl)
+      audio.volume = 0.85
+      audio.play().catch(() => {
+        // Ignore autoplay errors if blocked.
+      })
+    } catch (error) {
+      // Ignore audio errors silently
+    }
+  }
+
+  const handleDoorOpen = () => {
+    if (doorOpen || doorOpening) return
+    setDoorOpening(true)
+    playDoorOpen()
+    setTimeout(() => {
+      setDoorOpen(true)
+      setDoorOpening(false)
+    }, 650)
+  }
 
   const toggleChoice = (id) => {
     if (showResult) return
@@ -76,12 +100,10 @@ function ChocolateDay() {
         {!doorOpen ? (
           <div className="door-stage">
             <div className="door-frame">
-              <div className="door" onClick={() => setDoorOpen(true)}>
+              <div className={`door ${doorOpening ? 'opening' : ''}`} onClick={handleDoorOpen}>
                 <div className="door-knob"></div>
-                <div className="door-text">Open the door</div>
               </div>
             </div>
-            <p className="door-hint">Tap the door to open</p>
           </div>
         ) : (
           <div className="door-open">
@@ -91,7 +113,7 @@ function ChocolateDay() {
             />
             <div className="door-message">
               <h2>Happy Chocolate Day!!</h2>
-              <p>Chocolate is waiting for you at the door!</p>
+              <p>Find your chocolate!! hehe</p>
             </div>
           </div>
         )}
@@ -101,7 +123,10 @@ function ChocolateDay() {
             <h3>Do you want more chocolates?</h3>
             <div className="choice-grid">
               {[
-                { id: 'choice-1', file: 'IMG_5671.jpg' },
+                {
+                  id: 'choice-1',
+                  file: 'Lindt-Lindor-Milk-Chocolate-Candy-Truffles-5-1-oz-Bag_3ef57e41-d787-410a-a370-9fda45ff62b7.9bc817c6e5711f2ecec7747f4aed325b.avif'
+                },
                 { id: 'choice-2', file: 'chocolate_hero1-d62e5444a8734f8d8fe91f5631d51ca5.jpg' }
               ].map((choice) => (
                 <button
