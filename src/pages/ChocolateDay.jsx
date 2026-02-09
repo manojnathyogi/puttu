@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './ChocolateDay.css'
 
@@ -6,8 +6,10 @@ function ChocolateDay() {
   const [doorOpen, setDoorOpen] = useState(false)
   const [selected, setSelected] = useState([])
   const [showResult, setShowResult] = useState(false)
+  const reactionLayerRef = useRef(null)
 
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}chocolate-day/${fileName}`
+  const awwwUrl = `${import.meta.env.BASE_URL}sound/awww.mp3`
 
   const toggleChoice = (id) => {
     if (showResult) return
@@ -22,15 +24,54 @@ function ChocolateDay() {
   const handleDone = () => {
     if (showResult) return
     setShowResult(true)
+    playAwww()
+    launchReactions()
+  }
+
+  const playAwww = () => {
+    try {
+      const audio = new Audio(awwwUrl)
+      audio.volume = 0.8
+      audio.play().catch(() => {
+        // Ignore autoplay errors if blocked.
+      })
+    } catch (error) {
+      // Ignore audio errors silently
+    }
+  }
+
+  const launchReactions = () => {
+    const layer = reactionLayerRef.current
+    if (!layer) return
+    const emojis = ['🍫', '🍬', '🍩', '🍪', '😍', '🥰', '😘', '💖', '✨']
+    const totalBursts = 18
+    for (let i = 0; i < totalBursts; i += 1) {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)]
+      const particle = document.createElement('span')
+      particle.className = 'chocolate-float'
+      particle.textContent = emoji
+      particle.style.left = `${Math.random() * 90 + 5}%`
+      particle.style.setProperty('--x-shift', `${Math.random() * 80 - 40}px`)
+      particle.style.animationDuration = `${Math.random() * 1.8 + 3.5}s`
+      particle.style.animationDelay = `${Math.random() * 0.6}s`
+      layer.appendChild(particle)
+
+      setTimeout(() => {
+        particle.remove()
+      }, 6000)
+    }
   }
 
   return (
     <div className="chocolate-container">
+      <div className="chocolate-reactions" ref={reactionLayerRef}></div>
       <Link to="/valentine" className="back-button">← Back</Link>
 
       <div className="chocolate-card">
         <h1>Chocolate Day 🍫</h1>
-        <p className="subtitle">I have already delivered a chocolate.</p>
+        <p className="subtitle">
+          even the sweetest chocolate cannot match your sweetness, still its Chocolate Day!!
+        </p>
 
         {!doorOpen ? (
           <div className="door-stage">
