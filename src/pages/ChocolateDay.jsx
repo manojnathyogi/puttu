@@ -112,10 +112,6 @@ function ChocolateDay() {
               src={assetUrl('Lindt-Lindor-Milk-Chocolate-Candy-Truffles-5-1-oz-Bag_3ef57e41-d787-410a-a370-9fda45ff62b7.9bc817c6e5711f2ecec7747f4aed325b.avif')}
               alt="Chocolate gift"
             />
-            <img
-              src={assetUrl('chocolate_hero1-d62e5444a8734f8d8fe91f5631d51ca5.jpg')}
-              alt="Chocolate surprise"
-            />
             <div className="door-message">
               <h2>Happy Chocolate Day!!</h2>
               <p>Find your chocolate!! hehe</p>
@@ -130,7 +126,7 @@ function ChocolateDay() {
               {[
                 {
                   id: 'choice-1',
-                  file: 'Lindt-Lindor-Milk-Chocolate-Candy-Truffles-5-1-oz-Bag_3ef57e41-d787-410a-a370-9fda45ff62b7.9bc817c6e5711f2ecec7747f4aed325b.avif'
+                  file: 'IMG_5671.jpg'
                 },
                 { id: 'choice-2', file: 'chocolate_hero1-d62e5444a8734f8d8fe91f5631d51ca5.jpg' }
               ].map((choice) => (
