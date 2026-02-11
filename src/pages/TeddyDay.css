@@ -17,6 +17,14 @@
   z-index: 1;
 }
 
+.teddy-reactions {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
 .teddy-float {
   position: absolute;
   bottom: -10%;
@@ -104,10 +112,12 @@
 .teddy-photo-wrap {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .teddy-photo {
   width: min(520px, 85vw);
+  max-width: 100%;
   height: auto;
   border-radius: 20px;
   box-shadow: 0 0 0 rgba(255, 182, 193, 0.6);
@@ -133,6 +143,29 @@
   }
   100% {
     box-shadow: 0 0 0 rgba(255, 182, 193, 0.35);
+  }
+}
+
+.teddy-reaction {
+  position: absolute;
+  bottom: 10%;
+  font-size: 24px;
+  animation-name: teddyReactionFloat;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+}
+
+@keyframes teddyReactionFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.7);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-280px) translateX(var(--x-shift)) scale(1.2) rotate(360deg);
   }
 }
 

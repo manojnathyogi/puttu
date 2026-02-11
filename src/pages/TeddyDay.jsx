@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './TeddyDay.css'
 
@@ -8,6 +8,7 @@ function TeddyDay() {
   const sadSoundUrl = `${import.meta.env.BASE_URL}sound/sad.mp3`
   const awwwSoundUrl = `${import.meta.env.BASE_URL}sound/awww.mp3`
   const [isSpinning, setIsSpinning] = useState(false)
+  const reactionsLayerRef = useRef(null)
 
   const teddyParticles = useMemo(
     () =>
@@ -33,8 +34,30 @@ function TeddyDay() {
     }
   }
 
+  const launchReactions = (emojis) => {
+    const layer = reactionsLayerRef.current
+    if (!layer) return
+    const totalBursts = 12
+    for (let i = 0; i < totalBursts; i += 1) {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)]
+      const particle = document.createElement('span')
+      particle.className = 'teddy-reaction'
+      particle.textContent = emoji
+      particle.style.left = `${Math.random() * 90 + 5}%`
+      particle.style.setProperty('--x-shift', `${Math.random() * 80 - 40}px`)
+      particle.style.animationDuration = `${Math.random() * 1.6 + 3.2}s`
+      particle.style.animationDelay = `${Math.random() * 0.4}s`
+      layer.appendChild(particle)
+
+      setTimeout(() => {
+        particle.remove()
+      }, 5200)
+    }
+  }
+
   return (
     <div className="teddy-container">
+      <div className="teddy-reactions" ref={reactionsLayerRef}></div>
       <div className="teddy-float-layer">
         {teddyParticles.map((particle) => (
           <span
@@ -94,10 +117,24 @@ function TeddyDay() {
         <div className="teddy-question">
           <h2>Do you love peddy or Mannu?</h2>
           <div className="teddy-options">
-            <button type="button" className="teddy-option-button" onClick={() => playSound(sadSoundUrl)}>
+            <button
+              type="button"
+              className="teddy-option-button"
+              onClick={() => {
+                playSound(sadSoundUrl)
+                launchReactions(['🥺', '😔', '☹️', '😢', '🧸'])
+              }}
+            >
               peddy
             </button>
-            <button type="button" className="teddy-option-button" onClick={() => playSound(awwwSoundUrl)}>
+            <button
+              type="button"
+              className="teddy-option-button"
+              onClick={() => {
+                playSound(awwwSoundUrl)
+                launchReactions(['🧸', '💖', '😍', '🥰', '✨'])
+              }}
+            >
               Mannu
             </button>
           </div>
