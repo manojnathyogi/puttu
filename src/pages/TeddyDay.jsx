@@ -5,6 +5,8 @@ import './TeddyDay.css'
 function TeddyDay() {
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}teddy-day/${fileName}`
   const teddySoundUrl = `${import.meta.env.BASE_URL}sound/teddy.mp3`
+  const sadSoundUrl = `${import.meta.env.BASE_URL}sound/sad.mp3`
+  const awwwSoundUrl = `${import.meta.env.BASE_URL}sound/awww.mp3`
   const [isSpinning, setIsSpinning] = useState(false)
 
   const teddyParticles = useMemo(
@@ -18,6 +20,18 @@ function TeddyDay() {
       })),
     []
   )
+
+  const playSound = (url) => {
+    try {
+      const audio = new Audio(url)
+      audio.volume = 0.85
+      audio.play().catch(() => {
+        // Ignore autoplay errors if blocked.
+      })
+    } catch (error) {
+      // Ignore audio errors silently
+    }
+  }
 
   return (
     <div className="teddy-container">
@@ -74,6 +88,18 @@ function TeddyDay() {
               alt="Teddy day memory"
               className="teddy-photo"
             />
+          </div>
+        </div>
+
+        <div className="teddy-question">
+          <h2>Do you love peddy or Mannu?</h2>
+          <div className="teddy-options">
+            <button type="button" className="teddy-option-button" onClick={() => playSound(sadSoundUrl)}>
+              peddy
+            </button>
+            <button type="button" className="teddy-option-button" onClick={() => playSound(awwwSoundUrl)}>
+              Mannu
+            </button>
           </div>
         </div>
 

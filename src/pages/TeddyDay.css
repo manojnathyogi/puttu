@@ -136,6 +136,40 @@
   }
 }
 
+.teddy-question {
+  margin-top: 28px;
+}
+
+.teddy-question h2 {
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  color: #c2255c;
+  margin-bottom: 16px;
+}
+
+.teddy-options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.teddy-option-button {
+  border: none;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff9fba 0%, #ff6b9d 100%);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(214, 51, 108, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.teddy-option-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(214, 51, 108, 0.35);
+}
+
 .nav-link {
   display: inline-block;
   margin-top: 28px;
