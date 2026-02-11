@@ -84,11 +84,15 @@
 .teddy-rotate {
   width: min(280px, 70vw);
   height: auto;
-  animation: teddySpin 6s linear infinite;
   filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.2));
+  cursor: pointer;
 }
 
-@keyframes teddySpin {
+.teddy-rotate.spin-once {
+  animation: teddySpinOnce 1s linear forwards;
+}
+
+@keyframes teddySpinOnce {
   from {
     transform: rotate(0deg);
   }

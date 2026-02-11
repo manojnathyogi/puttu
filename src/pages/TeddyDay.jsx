@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './TeddyDay.css'
 
 function TeddyDay() {
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}teddy-day/${fileName}`
+  const teddySoundUrl = `${import.meta.env.BASE_URL}sound/teddy.mp3`
+  const [isSpinning, setIsSpinning] = useState(false)
 
   const teddyParticles = useMemo(
     () =>
@@ -44,7 +46,27 @@ function TeddyDay() {
 
         <div className="teddy-content">
           <div className="teddy-rotate-wrap">
-            <img src={assetUrl('teddy.png')} alt="Teddy" className="teddy-rotate" />
+            <img
+              src={assetUrl('teddy.png')}
+              alt="Teddy"
+              className={`teddy-rotate ${isSpinning ? 'spin-once' : ''}`}
+              onClick={() => {
+                if (isSpinning) return
+                setIsSpinning(true)
+                try {
+                  const audio = new Audio(teddySoundUrl)
+                  audio.volume = 0.85
+                  audio.play().catch(() => {
+                    // Ignore autoplay errors if blocked.
+                  })
+                } catch (error) {
+                  // Ignore audio errors silently
+                }
+                setTimeout(() => {
+                  setIsSpinning(false)
+                }, 1100)
+              }}
+            />
           </div>
           <div className="teddy-photo-wrap">
             <img
