@@ -115,7 +115,7 @@ function TeddyDay() {
         </div>
 
         <div className="teddy-question">
-          <h2>Do you love peddy or Mannu?</h2>
+          <h2>Do you love peddy or Puttu ko Muttu?</h2>
           <div className="teddy-options">
             <button
               type="button"
@@ -135,7 +135,7 @@ function TeddyDay() {
                 launchReactions(['🧸', '💖', '😍', '🥰', '✨'])
               }}
             >
-              Mannu
+              Puttu ko Muttu
             </button>
           </div>
         </div>
