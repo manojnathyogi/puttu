@@ -9,7 +9,7 @@ const roadmapDays = [
   { emoji: '🧸', date: 'February 10 (Tuesday)', day: 'Teddy Day', description: 'Gifting teddy bears or soft toys.', active: true, link: '/teddy-day' },
   { emoji: '🤝', date: 'February 11 (Wednesday)', day: 'Promise Day', description: 'Making lasting commitments to each other.', active: true, link: '/promise-day' },
   { emoji: '🤗', date: 'February 12 (Thursday)', day: 'Hug Day', description: 'Offering comfort and affection.', active: true, link: '/hug-day' },
-  { emoji: '💋', date: 'February 13 (Friday)', day: 'Kiss Day', description: 'Sealing love with a kiss.', active: false },
+  { emoji: '💋', date: 'February 13 (Friday)', day: 'Kiss Day', description: 'Sealing love with a kiss.', active: true, link: '/kiss-day' },
   { emoji: '❤️', date: 'February 14 (Saturday)', day: "Valentine's Day", description: 'The main day for romantic dates and celebrations.', active: false },
 ]
 
