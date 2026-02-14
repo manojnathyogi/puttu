@@ -51,14 +51,50 @@
   overflow: hidden;
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  perspective: 1000px;
 }
 
-.kiss-image-button img {
+.kiss-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  min-height: 260px;
+}
+
+.kiss-image-button.flipped .kiss-card-inner {
+  transform: rotateY(180deg);
+}
+
+.kiss-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.kiss-card-front img {
   width: 100%;
   height: 100%;
   max-height: 360px;
   object-fit: cover;
   display: block;
+}
+
+.kiss-card-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffb3c7 0%, #ffd6e3 100%);
+  color: #7a103a;
+  font-size: clamp(1.1rem, 2.8vw, 1.6rem);
+  font-weight: 600;
+  transform: rotateY(180deg);
+  padding: 16px;
+  text-transform: lowercase;
 }
 
 .kiss-image-button:hover {
@@ -72,9 +108,26 @@
   margin: 8px 0;
 }
 
-.kiss-hint {
-  margin: 0 0 18px;
-  color: #a61e4d;
+.kiss-none {
+  margin: 6px 0 18px;
+  padding: 10px 28px;
+  border-radius: 999px;
+  border: 2px solid rgba(194, 37, 92, 0.35);
+  background: #fff;
+  color: #c2255c;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kiss-none:hover {
+  background: #ffe3ed;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(194, 37, 92, 0.2);
+}
+
+.kiss-float.sad {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
 }
 
 .nav-link {
