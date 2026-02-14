@@ -91,9 +91,12 @@
 }
 
 .hug-input {
-  width: min(280px, 80vw);
-  accent-color: #ff6b9d;
-  cursor: pointer;
+  width: min(220px, 80vw);
+  border-radius: 12px;
+  border: 1px solid rgba(194, 37, 92, 0.25);
+  padding: 10px 12px;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .hug-scale-label {
@@ -101,11 +104,6 @@
   color: #a61e4d;
 }
 
-.hug-value {
-  min-width: 42px;
-  font-weight: 600;
-  color: #c2255c;
-}
 
 .nav-link {
   display: inline-block;

@@ -7,14 +7,14 @@ import './HugDay.css'
 function HugDay() {
   const assetUrl = (fileName) => `${import.meta.env.BASE_URL}hug-day/${fileName}`
   const awwwSoundUrl = `${import.meta.env.BASE_URL}sound/awww.mp3`
-  const sliderMin = -100
-  const sliderMax = 100
+  const sadSoundUrl = `${import.meta.env.BASE_URL}sound/sad.mp3`
   const [cozyChoice, setCozyChoice] = useState(null)
   const [cozyLevel, setCozyLevel] = useState('0')
   const suppressSaveRef = useRef(false)
   const lastSavedRef = useRef({ cozyChoice: null, cozyLevel: '0' })
   const currentRef = useRef({ cozyChoice: null, cozyLevel: '0' })
   const soundRef = useRef(null)
+  const sadSoundRef = useRef(null)
 
   const playAwww = () => {
     if (!awwwSoundUrl) return
@@ -25,16 +25,23 @@ function HugDay() {
     soundRef.current.play().catch(() => {})
   }
 
-  const normalizeIncomingLevel = (value) => {
-    if (value === '+∞') return String(sliderMax)
-    if (value === '-∞') return String(sliderMin)
-    return value ?? '0'
+  const playSad = () => {
+    if (!sadSoundUrl) return
+    if (!sadSoundRef.current) {
+      sadSoundRef.current = new Audio(sadSoundUrl)
+    }
+    sadSoundRef.current.currentTime = 0
+    sadSoundRef.current.play().catch(() => {})
   }
 
-  const serializeLevel = (value) => {
-    if (value === String(sliderMax)) return '+∞'
-    if (value === String(sliderMin)) return '-∞'
-    return value
+  const handleCozySound = (value) => {
+    const numberValue = Number.parseFloat(value)
+    if (Number.isNaN(numberValue)) return
+    if (numberValue > 0) {
+      playAwww()
+    } else {
+      playSad()
+    }
   }
 
   useEffect(() => {
@@ -43,14 +50,12 @@ function HugDay() {
       if (!snapshot.exists()) return
       const data = snapshot.data()
       const nextChoice = data.cozyChoice ?? null
-      const rawLevel = data.cozyLevel ?? '0'
-      const nextLevel = normalizeIncomingLevel(rawLevel)
-      const serializedLevel = serializeLevel(nextLevel)
+      const nextLevel = data.cozyLevel ?? '0'
       if (nextChoice === currentRef.current.cozyChoice && nextLevel === currentRef.current.cozyLevel) {
         return
       }
       suppressSaveRef.current = true
-      lastSavedRef.current = { cozyChoice: nextChoice, cozyLevel: serializedLevel }
+      lastSavedRef.current = { cozyChoice: nextChoice, cozyLevel: nextLevel }
       currentRef.current = { cozyChoice: nextChoice, cozyLevel: nextLevel }
       setCozyChoice(nextChoice)
       setCozyLevel(nextLevel)
@@ -64,7 +69,7 @@ function HugDay() {
       suppressSaveRef.current = false
       return
     }
-    const payload = { cozyChoice, cozyLevel: serializeLevel(cozyLevel) }
+    const payload = { cozyChoice, cozyLevel }
     const lastSaved = lastSavedRef.current
     if (payload.cozyChoice === lastSaved.cozyChoice && payload.cozyLevel === lastSaved.cozyLevel) return
     lastSavedRef.current = payload
@@ -111,26 +116,19 @@ function HugDay() {
           <div className="hug-question">
             <h2>how much cozy do you feel with me?</h2>
             <div className="hug-scale">
-              <span className="hug-scale-label">-∞</span>
+              <span className="hug-scale-label">0</span>
               <input
-                type="range"
-                min={sliderMin}
-                max={sliderMax}
-                step="1"
+                type="number"
                 value={cozyLevel}
                 onChange={(event) => setCozyLevel(event.target.value)}
-                onMouseUp={playAwww}
-                onTouchEnd={playAwww}
-                onKeyUp={(event) => {
-                  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-                    playAwww()
+                onBlur={(event) => handleCozySound(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    handleCozySound(event.currentTarget.value)
                   }
                 }}
                 className="hug-input"
               />
-              <span className="hug-value">
-                {cozyLevel === String(sliderMin) ? '-∞' : cozyLevel === String(sliderMax) ? '+∞' : cozyLevel}
-              </span>
               <span className="hug-scale-label">+∞</span>
             </div>
           </div>
